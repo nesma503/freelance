@@ -1,31 +1,45 @@
 <?php
 session_start();
-require_once "../config.php";
-$username = $password = $invalid= "";
-
+require_once "../db/dbWrapper.php";
+$username = $password = $invalid = "";
+$db = new dbWrapper();
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    $username = trim($_POST["username"]);
     // Check if username is empty
-    if (empty(trim($_POST["username"]))) {
-        $username_err = "Please enter username.";
-    } else {
-        $username = trim($_POST["username"]);
+    if (empty($username)) {
+        $username_err = "Please enter your username.";
     }
 
+    $password = trim($_POST["password"]);
     // Check if password is empty
-    if (empty(trim($_POST["password"]))) {
+    if (empty($password)) {
         $password_err = "Please enter your password.";
-    } else {
-        $password = trim($_POST["password"]);
     }
 
-    if (empty($username_err) && empty($password_err))
-        $sql = "select username,password from users where username='" . $username . "' and password ='" . $password . "'";
-
-    $usernameDB = $passwordDB = "";
-    if (mysqli_stmt_execute($sql)) {
-        mysqli_stmt_bind_result($sql, $usernameDB, $passwordDB);
+    if (empty($username_err) && empty($password_err)) {
+        $sql = "select id,password from users where username= ? and password = ?";
+        $result = $db::queryOne($sql, [$username, $password]);
+        if ($result == null)
+            $invalid = "Invalid username or password!";
+        else {
+            $sql= "select * from recruiters where userId = ?";
+            $recruiter = $db::queryOne($sql, [$result['id']]);
+            if($recruiter)
+                {
+                    // go to main recruiter page
+                }
+                else
+                {
+                    $sql= "select * from freelancers where userId = ?";
+                    $freelancer = $db::queryOne($sql, [$result['id']]);
+                    if($freelancer)
+                    {
+                        // go to main freelancer page
+                    }
+                }
+        }
     }
 }
 
@@ -95,10 +109,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="form-group">
                             <input type="submit" class="btn btn-primary btn-lg btn-block" value="Sign in" />
                         </div>
-                        <?php if($invalid != "") echo '<div class="alert alert-danger p-1 mt-1"><i class="fa fa-fw fa-exclamation-triangle"></i>'.$invalid.'</div>';?>
+                        <?php if ($invalid != "") echo '<div class="alert alert-danger p-1 mt-1"><i class="fa fa-fw fa-exclamation-triangle"></i>' . $invalid . '</div>'; ?>
                         <p><a href="#">Lost your Password?</a></p>
                     </form>
-                    <p class="text-center small">Don't have an account? <a href="#">Sign up here!</a></p>
+                    <p class="text-center small">Don't have an account? </p>
+                    <a href="#" class="float-left">Sign up as recruiter!</a>
+                    <a href="#" class="float-right">Sign up as freelancer!</a>
                 </div>
                 <div class="col-4"></div>
             </div>
