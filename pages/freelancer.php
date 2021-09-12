@@ -193,6 +193,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="url" class="form-control" placeholder="Id Picture" name="idPicture" required="required">
                             </div>
 
+            
+
 
 
 

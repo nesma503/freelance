@@ -1,7 +1,8 @@
 <?php
 session_start();
 require_once "../db/dbWrapper.php";
-$username = $password = $invalid = "";
+
+$_SESSION["username"] = "siham";
 $db = new dbWrapper();
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -9,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"]);
     // Check if username is empty
     if (empty($username)) {
-        $username_err = "Please enter your username.";
+        $username_err = "Please enter username.";
     }
 
     $password = trim($_POST["password"]);
