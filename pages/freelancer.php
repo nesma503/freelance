@@ -188,7 +188,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <select class="form-control">
                                         <?php
 
-                                        for ($i = 0; $i < $all_degrees . count - 1; $i++) {
+                                        for ($i = 0; $i < count($all_degrees) - 1; $i++) {
                                             echo '<option value=' . $all_degrees[$i]['Id'] . '>' . $all_degrees[$i]['Name'] . '</option>';
                                         }
                                         ?>
