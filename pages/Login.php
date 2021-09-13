@@ -1,15 +1,18 @@
 <?php
 session_start();
-require_once "../db/dbWrapper.php";
+require_once "../models/user.php";
+require_once "../models/freelancer.php";
+
 $username = $password = $invalid = "";
-$db = new dbWrapper();
+
+$_SESSION['user'] = 'mhd session';
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $username = trim($_POST["username"]);
     // Check if username is empty
     if (empty($username)) {
-        $username_err = "Please enter your username.";
+        $username_err = "Please enter username.";
     }
 
     $password = trim($_POST["password"]);
@@ -19,16 +22,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($username_err) && empty($password_err)) {
-        $sql = "select id,password from users where username= ? and password = ?";
-        $result = $db::queryOne($sql, [$username, $password]);
-        if ($result == null)
+        $user = User::GetUser($username, $password);
+        if ($user == null)
             $invalid = "Invalid username or password!";
         else {
-            $sql= "select * from recruiters where userId = ?";
-            $recruiter = $db::queryOne($sql, [$result['id']]);
+            // freelancer
+            if($user->UserType == 1)
+            {
+                $freelancer = Freelancer::GetFreelancer($user->ID);
+                $_SESSION['freelancer'] = $freelancer;
+                // go to main recruiter page
+            }
+            else
+            {
+                $recruiter = Recruiter::GetRecruiter($user->ID);
+                $_SESSION['recruiter'] = $recruiter;
+
+            }
+
             if($recruiter)
                 {
-                    // go to main recruiter page
+                    
                 }
                 else
                 {
