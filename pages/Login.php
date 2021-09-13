@@ -1,9 +1,11 @@
 <?php
 session_start();
 require_once "../models/user.php";
+require_once "../models/freelancer.php";
 
 $username = $password = $invalid = "";
 
+$_SESSION['user'] = 'mhd session';
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -27,13 +29,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // freelancer
             if($user->UserType == 1)
             {
-                $recruiter = Recruiter::GetRecruiter($user->ID);
-                $_SESSION['recruiter'] = $recruiter;
+                $freelancer = Freelancer::GetFreelancer($user->ID);
+                $_SESSION['freelancer'] = $freelancer;
                 // go to main recruiter page
             }
             else
             {
-
+                $recruiter = Recruiter::GetRecruiter($user->ID);
+                $_SESSION['recruiter'] = $recruiter;
 
             }
 
