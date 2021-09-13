@@ -175,8 +175,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
 
 
-                            <div id="profile" <?php if ($userType == "2") echo 'class="hidden"' ?>>
-                                <p class="h4"> Set up your profile:</p>
+            
+
 
 
                                 <div class="form-group">

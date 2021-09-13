@@ -12,7 +12,7 @@ class User
     public $DOB;
     public $CreationDate;
     public $IsDeleted;
-    private $db;
+    private static $db = null;
 
     public static function GetUser($username, $password)
     {
@@ -20,19 +20,24 @@ class User
             if (self::$db ==  null)
                 self::$db = new dbWrapper();
 
-            $sql = "select * from users where username= ? and password = ?";
-            $result = self::$db::queryOne($sql, [$username, $password]);
+            $sql = "select * from users where username= ? and IsDeleted = 0";
+            $result = self::$db::queryOne($sql, [$username]);
 
             if($result != null)
             {
                 $user = new User();
-                $user->ID = $result['id'];
+                $user->ID = $result['Id'];
                 $user->Username = $username;
-                $user->FirtName = $result['firstName'];
+                $user->FirtName = $result['FirstName'];
             }
             return $user;
         } catch (Exception $e) {
             return null;
         }
+    }
+
+
+    public static function UpdateUser()
+    {
     }
 }

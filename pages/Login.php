@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"]);
     // Check if username is empty
     if (empty($username)) {
-        $username_err = "Please enter your username.";
+        $username_err = "Please enter username.";
     }
 
     $password = trim($_POST["password"]);
