@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once "../db/dbWrapper.php";
+require_once "../models/user.php";
 
-$_SESSION["username"] = "siham";
-$db = new dbWrapper();
+$username = $password = $invalid = "";
+
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -20,16 +20,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($username_err) && empty($password_err)) {
-        $sql = "select id,password from users where username= ? and password = ?";
-        $result = $db::queryOne($sql, [$username, $password]);
-        if ($result == null)
+        $user = User::GetUser($username, $password);
+        if ($user == null)
             $invalid = "Invalid username or password!";
         else {
-            $sql= "select * from recruiters where userId = ?";
-            $recruiter = $db::queryOne($sql, [$result['id']]);
+            // freelancer
+            if($user->UserType == 1)
+            {
+                $recruiter = Recruiter::GetRecruiter($user->ID);
+                $_SESSION['recruiter'] = $recruiter;
+                // go to main recruiter page
+            }
+            else
+            {
+
+
+            }
+
             if($recruiter)
                 {
-                    // go to main recruiter page
+                    
                 }
                 else
                 {
