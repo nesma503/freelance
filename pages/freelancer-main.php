@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-$user = $_SESSION['user'];
-echo $user;
+
 require_once '../helpers/helpers.php';
 ?>
 <!DOCTYPE html>

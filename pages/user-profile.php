@@ -159,11 +159,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php menu(1,"profile", "siham") ?>
     <div class="col-9">
       <div class="profile-form-wrapper">
-        <h1>Edit Profile</h1>
+        <h1 class="d-flex justify-content-center">Edit Profile</h1>
         <div class="inner-list form-group">
           <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div>
-              <h3>My Profile</h3>
+              <h3 class="d-flex justify-content-center">My Profile</h3>
             </div>
 
             <div class="form-group">
