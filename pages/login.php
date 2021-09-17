@@ -4,10 +4,10 @@ require_once "../models/freelancer.php";
 require_once "../models/recruiter.php";
 session_start();
 
-/*if (isset($_SESSION['freelancer']))
+if (isset($_SESSION['freelancer']))
     header('Location: ./freelancer-main.php');
 if (isset($_SESSION['recruiter']))
-    header('Location: ./recruiter-main.php');*/
+    header('Location: ./recruiter-main.php');
 
 $username_err = $password_err = $invalid = "";
 
