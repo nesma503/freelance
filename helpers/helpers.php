@@ -14,13 +14,13 @@ function menu($userType, $page, $username)
     </div>
     <div>
         <ul class="menu">
-            <li><a href="./profile.php"> <span class="flaticon-businessman '.($page == "profile" ?  "active": "").'" /> Profile </a></li>';
+            <li><a href="./user-profile.php"> <span class="flaticon-businessman '.($page == "profile" ?  "active": "").'" /> Profile </a></li>';
             // freelancer
             if ($userType == 1) {
                 echo '
             <li><a href="./freelancer-resume.php" > <span class="flaticon-resume ' . ($page == "resume" ? "active" : "") . '" /> Resume </a></li>
-            <li><a href="#" > <span class="flaticon-book ' . ($page == "myApplied" ? "active" : "") . '"/> My Applied </a></li>
-            <li><a href="#" > <span class="flaticon-briefcase-1 ' . ($page == "jobs" ? "active" : "") . '"/> Jobs </a></li>';
+            <li><a href="./freelancer-myApplied.php" > <span class="flaticon-book ' . ($page == "myApplied" ? "active" : "") . '"/> My Applied </a></li>
+            <li><a href="./freelancer-jobs.php" > <span class="flaticon-briefcase-1 ' . ($page == "jobs" ? "active" : "") . '"/> Jobs </a></li>';
             } else {
                 echo '
             <li><a href="#" > <span class="flaticon-briefcase-1 ' . ($page == "myJobs" ? "active" : "") . '"/> My Jobs </a></li>
