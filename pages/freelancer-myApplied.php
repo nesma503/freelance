@@ -88,11 +88,11 @@
     <?php menu(1, "myApplied", "siham"); ?>
     <div class="col-9">
       <div class="jobs-form-wrapper"> 
-        <h1 class="d-flex justify-content-center">My Jobs</h1>
+        <h1 class="d-flex justify-content-center">My Applied</h1>
         <div class="inner-list form-group">
           <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div>
-              <h3 class="d-flex justify-content-center">Applied</h3>
+              <h3 class="d-flex justify-content-center">Jobs</h3>
               
 
 

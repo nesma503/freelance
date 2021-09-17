@@ -19,7 +19,7 @@ class Job
       if (self::$db ==  null)
         self::$db = new dbWrapper();
 
-      $sql = "select * from jobs";
+      $sql = "select * from jobs where IsDeleted=0";
       $result = self::$db::queryAll($sql);
 
       if ($result != null) {
