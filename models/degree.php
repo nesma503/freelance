@@ -10,12 +10,11 @@ class Degree
   public static function GetAll()
   {
     try {
-      if (self::$db ==  null)
-        self::$db = new dbWrapper();
+      self::$db = new dbWrapper();
 
       $sql = "select * from degrees";
       $result = self::$db::queryAll($sql);
-
+      $degrees = [];
       if ($result != null) {
         $degrees = [];
         for ($i = 0; $i < count($result); $i++) {
@@ -27,7 +26,7 @@ class Degree
       }
       return $degrees;
     } catch (Exception $e) {
-      return null;
+      return [];
     }
   }
 }

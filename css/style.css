@@ -1,0 +1,131 @@
+@font-face{font-family:"SofiaPro";src:url("../fonts/SofiaProRegular.woff2") }
+
+body {
+    font-family: "SofiaPro";
+}
+
+.fill-height {
+    height: 100vh;
+    min-height: 100%;
+}
+
+.wrapper {
+    background: #F4F7FC;
+    margin-left: -15px;
+}
+
+.z-index-2 {
+    z-index: 2;
+}
+
+.title {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.form {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 40px;
+    margin-bottom: 40px;
+}
+
+.error {
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+
+.form-control, .custom-file-label{
+    background-color: #F4F7FC;
+}
+
+.job {
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px 0 #a8a8a8;
+    margin-bottom: 30px;
+}
+
+.job .job-header {
+    background-color: #F6F7F7;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 1px 0 5px 0 #a8a8a8;
+}
+
+.job .job-title {
+    font-size: 28px;
+    color: #007bff;
+}
+
+.job .date {
+    font-size: 13px;
+    font-style: italic;
+    padding: 10px;
+}
+
+.skills-container, .applicants-container, .description-container {
+    padding: 10px;
+    margin-top: 10px;
+    color: #696969;
+    min-height: 120px;
+}
+
+.job .skill {
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+    background-color: #F4F7FC;
+    color: #007bff;
+    border-radius: 5px;
+}
+
+.job .applicant {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.job .header, .applicant:hover {
+    background-color: #F4F7FC;
+    border-radius: 5px;
+    color: #007bff;
+}
+
+.job .applicant img {
+    width: 16px;
+    height:  16px;
+    margin: 0;
+}
+
+.job .description {
+    background-color: #F6F7F7;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.job .image-container img {
+    width: 96%;
+    height: 100%;
+}
+
+.job .job-footer {
+    padding: 10px;
+    border-radius: 5px;
+    border-top: 1px solid #aaf;
+}
+
+.job .salary {
+    margin-top: 10px;
+}
+
+.search {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+.search-input {
+    display: flex;
+}
+
