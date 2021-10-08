@@ -115,24 +115,6 @@ class dbWrapper
 			return false;
 		}
 	}
-
-	
-	/**
-	 * Executes a query and returns the inserted ID
-	 * @param string $query The query
-	 * @param array $params Parameters to be passed into the query
-	 * @return int The inserted ID
-	 */
-	public static function insert($query, $params = array())
-	{
-		try {
-			$result = self::$connection->prepare($query);
-			return $result->execute($params);
-		} catch (Exception $e) {
-			return false;
-		}
-	}
-
 	
 	/**
 	 * Executes a query and returns the inserted ID
