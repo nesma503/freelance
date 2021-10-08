@@ -33,9 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $image->FileType = $_FILES['image']['type'];
             $result = uploadFile($image, "image");
             if ($result[0] == 1) // success
-                $imageUrl = $result[1]; // new file name
+                $imageUrl = $result[1];
             else
-                $image_err = $result[1]; // error msg
+                $image_err = $result[1];
         }
     }
 

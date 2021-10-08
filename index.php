@@ -70,18 +70,18 @@
 <body>
     <nav class="fixed-top py-3" id="main">
         <div class="container">
-            <div class="navbar-brand">Our Website</div>
+            <div class="navbar-brand">Lebanese Recruit</div>
         </div>
     </nav>
     <header class="masthead">
         <div class="container px-4 px-5 h-100">
             <div class="row h-100 align-items-center justify-content-center text-center">
-                <div class="col-8 align-self-end">
-                    <h1 class="text-white font-weight-bold">Your Favorite Place for Free Bootstrap Themes</h1>
+                <div class="col-12 align-self-end">
+                    <h1 class="text-white font-weight-bold">Your Favorite Place for Online Jobs!</h1>
                     <hr class="divider" />
                 </div>
                 <div class="col-8 align-self-baseline">
-                    <p class="text-white-75 mb-5">Start Bootstrap can help you build better websites using the Bootstrap framework! Just download a theme and start customizing, no strings attached!</p>
+                    <p class="text-white-75 mb-5">Lebanese Recruit makes it easy for Lebanese freelancers and quality employers from all over the world to connect, collaborate, and get work done flexibly.</p>
                     <div class="row">
                         <div class="col">
                             <a class="btn btn-primary button" href="./pages/login.php">

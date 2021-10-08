@@ -87,6 +87,27 @@ class User
         }
     }
 
+    public static function ValidateEmail($email, $userId = 0)
+    {
+        try {
+            self::$db = new dbWrapper();
+            $result = null;
+
+            if ($userId == 0) {
+                $sql = "select Email from users where email= ?";
+                $result = self::$db::queryOne($sql, [$email]);
+            } else if ($userId > 0) {
+                $sql = "SELECT * FROM users WHERE email= ? where userId <> ?";
+                $result = self::$db::queryOne($sql, [$email, $userId]);
+            }
+            if ($result == null)
+                return true;
+            return false;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
     public function Save()
     {
         try {

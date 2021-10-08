@@ -28,19 +28,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $firstName = trim($_POST["firstName"]);
   if (empty($firstName)) {
     $firstName_err = "Please enter your first name.";
+  } else if (!preg_match("/^([a-zA-Z' ]+)$/", $firstName)) {
+    $firstName_err = "Invalid name given.";
   }
 
   $lastName = trim($_POST["lastName"]);
   if (empty($lastName)) {
     $lastName_err = "Please enter your last name.";
+  } else if (!preg_match("/^([a-zA-Z' ]+)$/", $lastName)) {
+    $lastName_err = "Invalid name given.";
   }
 
   $username = trim($_POST["username"]);
   if (empty($username)) {
     $username_err = "Please enter a username.";
+  } else if (count(explode(' ', $username)) > 1) {
+    $username_err = "Username must not contain white spaces!";
   }
 
-  // check if the username not exist
+  // check if the username does not exist
   $valid = User::ValidateUsername($username, $userId);
   if (!$valid) {
     $username_err = "Username already taken";
@@ -49,6 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = trim($_POST["email"]);
   if (empty($email)) {
     $email_err = "Please enter your email.";
+  } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $email_err = "Invalid email format";
   }
 
   $DOB = trim($_POST["DOB"]);
@@ -67,9 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user->Email = $email;
     $user->DOB = $DOB;
 
-    $success = $user->Save();
+    $success = $user->Save(); //update user
     if ($success) {
 
+      // reload user to make sure it is updated
       if ($userType == 1) {
         $freelancer = Freelancer::LoadByUserId($userId);
         if ($freelancer != null) {

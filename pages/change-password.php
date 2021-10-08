@@ -59,6 +59,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../css/style.css">
 
     <script src="../js/jquery-3.6.0.js"></script>
+
+    <script>
+        $(document).ready(function() {
+      $("#confirmPassword").on('keyup', function() {
+        var password = $("#password").val();
+        var confirmPassword = $("#confirmPassword").val();
+        if (password != confirmPassword)
+          $("#message").html("Passwords do not match!").css("color", "red");
+        else
+          $("#message").html("Passwords match!").css("color", "green");
+      });
+    });
+    </script>
 </head>
 
 <body>
@@ -90,6 +103,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <span class="invalid-feedback"><?php echo $confirmPassword_err; ?></span>
                                 </div>
                             </div>
+                            <div style="margin-top: 7px;" id="message"></div>
+
                         </div>
                         <div class=" form-group">
                             <input type="submit" class="btn btn-primary btn-lg btn-block" value="Update">

@@ -48,7 +48,6 @@ function menu($userType, $page, $username)
 
 function uploadFile($file, $type)
 {
-
   // get details of the uploaded file
   $fileTmpPath = $file->FileTmpPath;
   $fileName = $file->FileName;
@@ -67,19 +66,18 @@ function uploadFile($file, $type)
     $uploadFileDir = '../uploaded-documents/';
   }
 
-  $result = [];
-  $result[0] = "0";
+  $result = []; //result[0]: true or false, result[1]: filename in case success otherwise error msg.
+  $result[0] = "0"; //false
   $message = "";
   if (in_array($fileExtension, $allowedfileExtensions)) {
     // sanitize file-name
     $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
 
-
     $dest_path = $uploadFileDir . $newFileName;
 
     if (move_uploaded_file($fileTmpPath, $dest_path)) {
       $message = $newFileName;
-      $result[0] = "1";
+      $result[0] = "1"; //true
     } else {
       $message = 'Please make sure the upload directory is writable by web server.';
     }

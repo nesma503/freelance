@@ -16,10 +16,10 @@ if (isset($_SESSION['recruiter'])) {
 
 $error = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $success = User::Delete($user->UserId);
     if ($success) {
-        session_destroy();
+        session_destroy(); //destroy all data registered to a session
         header('Location: ./login.php');
     } else
         $error = "An error occured!";
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
                             <p> Are you sure do you want to delete your profile?
                         </div>
                         <div class=" form-group">
-                            <input type="submit" name="delete" class="btn btn-danger btn-lg btn-block" value="Confirm">
+                            <input type="submit" class="btn btn-danger btn-lg btn-block" value="Confirm">
                         </div>
                     </form>
                 </div>

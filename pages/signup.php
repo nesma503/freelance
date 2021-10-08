@@ -2,6 +2,8 @@
 require_once "../models/user.php";
 require_once "../models/freelancer.php";
 require_once "../models/recruiter.php";
+require_once "../helpers/helpers.php";
+
 session_start();
 
 if (isset($_SESSION['freelancer']))
@@ -16,22 +18,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName = trim($_POST["firstName"]);
     if (empty($firstName)) {
         $firstName_err = "Please enter your first name!";
+    } else if (!preg_match("/^([a-zA-Z' ]+)$/", $firstName)) {
+        $firstName_err = "Invalid name given.";
     }
 
     $lastName = trim($_POST["lastName"]);
     if (empty($lastName)) {
         $lastName_err = "Please enter your last name!";
+    } else if (!preg_match("/^([a-zA-Z' ]+)$/", $lastName)) {
+        $lastName_err = "Invalid name given.";
     }
 
     $username = trim($_POST["username"]);
     if (empty($username)) {
         $username_err = "Please enter a username!";
+    } else if (count(explode(' ', $username)) > 1) {
+        $username_err = "Username must not contain white spaces!";
     }
+
+    $validUsername = User::ValidateUsername($username);
+    if (!$validUsername)
+        $username_err = "Username already exists.";
 
     $email = trim($_POST["email"]);
     if (empty($email)) {
         $email_err = "Please enter your email!";
+    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $email_err = "Invalid email format";
     }
+
+    $validEmail = User::ValidateEmail($email);
+    if (!$validEmail)
+        $email_err = "Email already exists.";
 
     $password = trim($_POST["password"]);
     if (empty($password)) {
@@ -70,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $user->UserTypeId = $userType;
                 $user->Save();
                 if ($user->Id > 0) {
-                    $freelancerId = $recruiterId = 1;
+                    $freelancerId = $recruiterId = 0;
                     if ($userType == 1) {
                         $freelancer = new Freelancer();
                         $freelancer->UserId = $user->Id;
@@ -110,6 +128,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script src="../js/jquery-3.6.0.js"></script>
     <script src="../js/bootstrap-datepicker.min.js"></script>
+    <script src="../js/jquery-3.5.1.min.js"></script> <!--passwords matching-->
+
 
     <style>
         body {
@@ -135,15 +155,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .button {
-            border: 2px solid #fff ;
+            border: 2px solid #fff;
             width: 200px;
             border-radius: 20px;
         }
-
     </style>
     <script>
         $(function() {
-            $('.datepicker').datepicker();
+            $('.datepicker').datepicker({
+                yearRange: '2000:c+1',
+                changeYear: true,
+                minDate: new Date(2000, 10 - 1, 25),
+                maxDate: '+30Y',
+            });
         });
 
         function changeActiveButton(btnId) {
@@ -152,11 +176,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (btnId == "btnFreelancer") {
                 $('#btnFreelancer').removeClass('btn-secondary').addClass('btn-primary');
                 $('#btnRecruiter').removeClass('btn-primary').addClass('btn-secondary');
+                // show 'next' button 
+                // hide submit button
             } else {
                 $('#btnFreelancer').removeClass('btn-primary').addClass('btn-secondary');
                 $('#btnRecruiter').removeClass('btn-secondary').addClass('btn-primary');
+                // else
             }
         }
+
+        $(document).ready(function() {
+      $("#confirm_password").on('keyup', function() {
+        var password = $("#password").val();
+        var confirmPassword = $("#confirm_password").val();
+        if (password != confirmPassword)
+          $("#message").html("Passwords do not match!").css("color", "red");
+        else
+          $("#message").html("Passwords match!").css("color", "green");
+      });
+    });
     </script>
 </head>
 
@@ -187,10 +225,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col">
-                                        <input type="text" class="form-control" name="firstName" placeholder="First Name*" required="required" value="<?php echo $firstName ?>">
+                                        <input type="text" class="form-control <?php if ($firstName_err != "") echo 'is-invalid'; ?>" name="firstName" placeholder="First Name*" required="required" value="<?php echo $firstName ?>">
+                                        <span class="invalid-feedback"><?php echo $firstName_err; ?></span>
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" name="lastName" placeholder="Last Name*" required="required" value="<?php echo $lastName ?>">
+                                        <input type="text" class="form-control <?php if ($lastName_err != "") echo 'is-invalid'; ?>" name="lastName" placeholder="Last Name*" required="required" value="<?php echo $lastName ?>">
+                                        <span class="invalid-feedback"><?php echo $lastName_err; ?></span>
                                     </div>
                                 </div>
                             </div>
@@ -208,22 +248,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col">
-                                        <input type="password" class="form-control <?php if ($password_err != "") echo 'is-invalid'; ?>" name="password" placeholder="Password*" required="required">
+                                        <input type="password" id="password" class="form-control <?php if ($password_err != "") echo 'is-invalid'; ?>" name="password" placeholder="Password*" required="required">
                                         <span class="invalid-feedback"><?php echo $password_err; ?></span>
                                     </div>
                                     <div class="col">
-                                        <input type="password" class="form-control <?php if ($confirmPassword_err != "") echo 'is-invalid'; ?>" name="confirmPassword" placeholder="Confirm Password*" required="required">
+                                        <input type="password" id="confirm_password" class="form-control <?php if ($confirmPassword_err != "") echo 'is-invalid'; ?>" name="confirmPassword" placeholder="Confirm Password*" required="required">
                                         <span class="invalid-feedback"><?php echo $confirmPassword_err; ?></span>
                                     </div>
                                 </div>
+                                <div style="margin-top: 7px;" id="message"></div>
                             </div>
 
                             <div class="form-group">
                                 <input class="datepicker form-control <?php if ($DOB_err != "") echo 'is-invalid'; ?>" name="DOB" placeholder="Date of birth*" required="required" data-date-format="yyyy-mm-dd" value="<?php echo $DOB ?>">
                                 <span class="invalid-feedback"><?php echo $DOB_err; ?></span>
                             </div>
+                            
                             <div class="form-group">
                                 <input type="submit" class="btn btn-primary btn-lg btn-block" value="Register now" />
+                                <input class="btn btn-primary btn-lg btn-block hidden" value="next" />
                             </div>
                         </div>
                     </form>

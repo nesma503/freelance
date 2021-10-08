@@ -72,7 +72,7 @@ class dbWrapper
 	 * @param array $params Parameters to be passed into the query
 	 * @return mixed An associative array representing the row or false in no data returned
 	 */
-	public static function queryOne($query, $params = array())
+	public static function queryOne($query, $params = array()) //select single row
 	{
 		try {
 			$result = self::$connection->prepare($query);
@@ -89,7 +89,7 @@ class dbWrapper
 	 * @param array $params Parameters to be passed into the query
 	 * @return mixed An array of associative arrays or false in no data returned
 	 */
-	public static function queryAll($query, $params = array())
+	public static function queryAll($query, $params = array()) //select all rows
 	{
 		try {
 			$result = self::$connection->prepare($query);
@@ -106,7 +106,24 @@ class dbWrapper
 	 * @param array $params Parameters to be passed into the query
 	 * @return int The number of affected rows
 	 */
-	public static function query($query, $params = array())
+	public static function query($query, $params = array()) //update and delete
+	{
+		try {
+			$result = self::$connection->prepare($query);
+			return $result->execute($params);
+		} catch (Exception $e) {
+			return false;
+		}
+	}
+
+	
+	/**
+	 * Executes a query and returns the inserted ID
+	 * @param string $query The query
+	 * @param array $params Parameters to be passed into the query
+	 * @return int The inserted ID
+	 */
+	public static function insert($query, $params = array())
 	{
 		try {
 			$result = self::$connection->prepare($query);

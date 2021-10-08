@@ -27,7 +27,7 @@ class Job
     try {
       self::$db = new dbWrapper();
 
-      $pageSize = 2;
+      $pageSize = 1;
       $pageLimit =  $condition  = "";
       if ($page > 0)
         $pageLimit = "LIMIT " . ($page - 1) * $pageSize . "," . $pageSize;
@@ -84,7 +84,7 @@ class Job
     try {
       self::$db = new dbWrapper();
 
-      $pageSize = 2;
+      $pageSize = 1;
       $pageLimit =  $condition  = "";
       if ($page > 0)
         $pageLimit = "LIMIT " . ($page - 1) * $pageSize . "," . $pageSize;

@@ -24,6 +24,7 @@ $experience = $freelancer->ExperienceYears;
 $cv = $freelancer->CV;
 $idPicture = $freelancer->IdPicture;
 $freelancerSkills = $freelancer->Skills;
+//to set selectpicker values
 $freelancerSkillIds = [];
 
 // convert array of skills to array of skill Id
@@ -39,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (isset($_FILES) && isset($_FILES['document'])) {
     // get details of the uploaded file
-    if ($_FILES['document']['error'] != 0) {
+    if ($_FILES['document']['error'] != 0) { //error = 0 : No error.
       if ($_FILES['document']['error'] != 4) // error = 4 : No file was uploaded.
         $error = 'There is some error in file upload, error: ' . $_FILES['document']['error'];
     } else {
@@ -50,9 +51,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $document->FileType = $_FILES['document']['type'];
       $result = uploadFile($document, "document");
       if ($result[0] == 1) // success
-        $documentUrl = $result[1];
+        $documentUrl = $result[1]; // filename
       else
-        $document_err = $result[1];
+        $document_err = $result[1]; // error msg
     }
   }
 
@@ -74,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
   // fill variables
-  $degree = $_POST["degree"];
+  $degree = $_POST["degree"];  // degree Id
   if ($degree == "")
     $degree = null;
   $major = trim($_POST["major"]);
@@ -160,11 +161,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $(document).ready(function() {
       $('#selectpicker').selectpicker();
 
+      // get the selected skills
       $('#selectpicker').change(function() {
         $('#skillIds').val($('#selectpicker').val());
       });
       // set the selected skills
-      $('#selectpicker').selectpicker('val', <?php echo json_encode($freelancerSkillIds); ?>);
+      $('#selectpicker').selectpicker('val', <?php echo json_encode($freelancerSkillIds); ?>);// [1,2,...]
     });
   </script>
 </head>
