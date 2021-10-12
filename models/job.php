@@ -90,16 +90,17 @@ class Job
         $pageLimit = "LIMIT " . ($page - 1) * $pageSize . "," . $pageSize;
       if ($categoryId > 0)
         $condition = "AND CategoryId =" . $categoryId . " ";
-      $sql = "SELECT j.*, u.*, f.*, j.FreelancerId, d.Name as Degree, c.Name as Category,
+      $sql = "SELECT j.*, u.*, jf.JobId, jf.FreelancerId, f.*, d.Name as Degree, c.Name as Category,
              (select COUNT(*) FROM `jobs` as j
              inner join `jobs-freelancers` as jf on j.Id = jf.JobId
              WHERE IsDeleted = 0 AND RecruiterId=" . $recruiterId . " " . $condition . ") AS TotalRows
-              from (SELECT j.*, jf.FreelancerId FROM  `jobs` as j
+              from (SELECT j.* FROM  `jobs` as j
                     inner join `jobs-freelancers` as jf on j.Id = jf.JobId
                     WHERE IsDeleted = 0 AND RecruiterId=" . $recruiterId . " " . $condition . " 
                     ORDER  BY " . $orderBy . " DESC " . $pageLimit . ") as j
+              inner join `jobs-freelancers` as jf on j.Id = jf.JobId
               inner join `categories` as c on j.CategoryId = c.Id
-              inner join `freelancers` as f on j.FreelancerId = f.Id
+              inner join `freelancers` as f on jf.FreelancerId = f.Id
               inner join `users` as u on f.UserId = u.Id
               left join `degrees` as d on f.DegreeId = d.Id";
 
